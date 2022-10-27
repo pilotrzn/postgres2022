@@ -1,5 +1,4 @@
-# postgres2022
-## первое ДЗ
+# Домашнее задание 1
 
 
 **learning course postgresql**
