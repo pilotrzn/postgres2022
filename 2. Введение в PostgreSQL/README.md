@@ -2,4 +2,4 @@
 ## первое ДЗ
 
 
-learning course postgresql
+**learning course postgresql**
