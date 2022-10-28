@@ -37,12 +37,12 @@ $ sudo apt-get -y install postgresql-15
 проверка запуска
 
 $ pg_lsclusters
-```Ver Cluster Port Status Owner    Data directory              Log file
+```
+Ver Cluster Port Status Owner    Data directory              Log file
 15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
 ```
 
 листинг pg_hba.conf
-для пользователя postgres метод trust для входа без запроса пароля
 
 $ cat /etc/postgresql/15/main/pg_hba.conf
 
@@ -54,4 +54,8 @@ host    all             all             127.0.0.1/32            scram-sha-256
 host    all             all             ::1/128                 scram-sha-256
 local   replication     all                                     peer
 host    replication     all             127.0.0.1/32            scram-sha-256
-host    replication     all             ::1/128                 scram-sha-256```
+host    replication     all             ::1/128                 scram-sha-256
+```
+
+подключение из 2 консолей
+![consoles](img/pg2console.bmp)
