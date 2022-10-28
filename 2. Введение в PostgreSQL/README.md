@@ -59,4 +59,6 @@ host    replication     all             ::1/128                 scram-sha-256
 
 ## подключение из 2 консолей
 
-![consoles](img/pg2console.bmp)
+![consoles][1]
+
+[1]: img/pg2console.bmp
