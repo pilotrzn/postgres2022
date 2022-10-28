@@ -1,6 +1,6 @@
 # Домашнее задание
 
-Стенд для развертывания
+### Стенд для развертывания
 * host Debian
 * VirtualBox
 
@@ -22,7 +22,7 @@ PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-poli
 UBUNTU_CODENAME=jammy
 ```
 
-## SSH
+### SSH
 ```$ ssh-keygen -t rsa -b 4096 ```
 
 к виртуалке подключен по отдельному сетевому адресу, наличие ключа пока не принципиально. в двльнейшем будет использоваться между ВМ
@@ -35,7 +35,7 @@ $ sudo apt-get update
 $ sudo apt-get -y install postgresql-15
 ```
 
-## проверка запуска
+### проверка запуска
 
 $ pg_lsclusters
 ```
@@ -43,10 +43,9 @@ Ver Cluster Port Status Owner    Data directory              Log file
 15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
 ```
 
-листинг pg_hba.conf
+### листинг pg_hba.conf
 
 $ cat /etc/postgresql/15/main/pg_hba.conf
-
 ```
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             postgres                                peer
@@ -58,13 +57,15 @@ host    replication     all             127.0.0.1/32            scram-sha-256
 host    replication     all             ::1/128                 scram-sha-256
 ```
 
-## подключение из 2 консолей
+### подключение из 2 консолей
 
 ![consoles][1]
 
 [1]: img/pg2console.bmp
 
-## создаем БД для тестов
+# Работа с уровнями изоляции.
+
+### создаем БД для тестов
 ```
 postgres=# create database learning;
 CREATE DATABASE
@@ -101,3 +102,4 @@ learning=# show transaction isolation level;
 
 learning=#
 ```
+
