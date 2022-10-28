@@ -1,6 +1,10 @@
 # Домашнее задание 1
 
-Установлена ВМ с UBUNTU
+Стенд для развертывания
+* host Debian
+* VirtualBox
+
+Установлено 3 ВМ с UBUNTU
 
 $ cat /etc/os-release
 ```
@@ -18,4 +22,36 @@ PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-poli
 UBUNTU_CODENAME=jammy
 ```
 
+## SSH
+```$ ssh-keygen -t rsa -b 4096 ```
 
+к виртуалке подключен по отдельному сетевому адресу, наличие ключа пока не принципиально.
+
+## Установка PostgreSQL, 15 версия
+```$ sudo apt update && sudo apt upgrade -y 
+$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' 
+$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - 
+$ sudo apt-get update 
+$ sudo apt-get -y install postgresql-15
+```
+проверка запуска
+
+$ pg_lsclusters
+```Ver Cluster Port Status Owner    Data directory              Log file
+15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
+```
+
+листинг pg_hba.conf
+для пользователя postgres метод trust для входа без запроса пароля
+
+$ cat /etc/postgresql/15/main/pg_hba.conf
+
+```
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             postgres                                peer
+local   all             all                                     peer
+host    all             all             127.0.0.1/32            scram-sha-256
+host    all             all             ::1/128                 scram-sha-256
+local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            scram-sha-256
+host    replication     all             ::1/128                 scram-sha-256```
