@@ -68,4 +68,36 @@ host    replication     all             ::1/128                 scram-sha-256
 ```
 postgres=# create database learning;
 CREATE DATABASE
+postgres=# /c learning;
+Вы подключены к базе данных "learning" как пользователь "postgres".
+learning=#
+```
+
+### Выключаем autocommit
+
+```
+learning=# \set AUTOCOMMIT off
+```
+### Создаем таблицу, наполняем ее данными
+```
+learning=# create table persons(id serial, first_name text, second_name text);
+learning=# insert into persons(first_name, second_name) values('ivan', 'ivanov');
+learning=# insert into persons(first_name, second_name) values('petr', 'petrov');
+learning=# commit;
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+COMMIT
+learning=#
+```
+
+### текущий уровень изоляции
+```
+learning=# show transaction isolation level;
+ transaction_isolation
+-----------------------
+ read committed
+(1 строка)
+
+learning=#
 ```
