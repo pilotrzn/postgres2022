@@ -1,10 +1,10 @@
-# Домашнее задание 1
+# Домашнее задание
 
 Стенд для развертывания
 * host Debian
 * VirtualBox
 
-Установлено 3 ВМ с UBUNTU
+Установлена ВМ с UBUNTU
 
 $ cat /etc/os-release
 ```
@@ -25,7 +25,7 @@ UBUNTU_CODENAME=jammy
 ## SSH
 ```$ ssh-keygen -t rsa -b 4096 ```
 
-к виртуалке подключен по отдельному сетевому адресу, наличие ключа пока не принципиально.
+к виртуалке подключен по отдельному сетевому адресу, наличие ключа пока не принципиально. в двльнейшем будет использоваться между ВМ
 
 ## Установка PostgreSQL, 15 версия
 ```$ sudo apt update && sudo apt upgrade -y 
@@ -34,7 +34,8 @@ $ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo ap
 $ sudo apt-get update 
 $ sudo apt-get -y install postgresql-15
 ```
-проверка запуска
+
+## проверка запуска
 
 $ pg_lsclusters
 ```
@@ -62,3 +63,9 @@ host    replication     all             ::1/128                 scram-sha-256
 ![consoles][1]
 
 [1]: img/pg2console.bmp
+
+## создаем БД для тестов
+```
+postgres=# create database learning;
+CREATE DATABASE
+```
