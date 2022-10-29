@@ -1,12 +1,14 @@
 # Домашнее задание
 
-### Стенд для развертывания
+## Стенд для развертывания
+
 * host Debian
 * VirtualBox
 
 Установлена ВМ с UBUNTU
 
 $ cat /etc/os-release
+
 ```
 PRETTY_NAME="Ubuntu 22.04.1 LTS"
 NAME="Ubuntu"
@@ -23,21 +25,24 @@ UBUNTU_CODENAME=jammy
 ```
 
 ### SSH
-```$ ssh-keygen -t rsa -b 4096 ```
+
+```$ ssh-keygen -t rsa -b 4096```
 
 к виртуалке подключен по отдельному сетевому адресу, наличие ключа пока не принципиально. в двльнейшем будет использоваться между ВМ
 
 ## Установка PostgreSQL, 15 версия
-```$ sudo apt update && sudo apt upgrade -y 
-$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' 
-$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - 
-$ sudo apt-get update 
-$ sudo apt-get -y install postgresql-15
+
+```$ sudo apt update && sudo apt upgrade -y
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' 
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - 
+sudo apt-get update 
+sudo apt-get -y install postgresql-15
 ```
 
 ### проверка запуска
 
 $ pg_lsclusters
+
 ```
 Ver Cluster Port Status Owner    Data directory              Log file
 15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
@@ -46,6 +51,7 @@ Ver Cluster Port Status Owner    Data directory              Log file
 ### листинг pg_hba.conf
 
 $ cat /etc/postgresql/15/main/pg_hba.conf
+
 ```
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             postgres                                peer
@@ -63,9 +69,10 @@ host    replication     all             ::1/128                 scram-sha-256
 
 [1]: img/pg2console.bmp
 
-# Работа с уровнями изоляции.
+# Работа с уровнями изоляции
 
 ### создаем БД для тестов
+
 ```
 postgres=# create database learning;
 CREATE DATABASE
@@ -79,7 +86,9 @@ learning=#
 ```
 learning=# \set AUTOCOMMIT off
 ```
+
 ### Создаем таблицу, наполняем ее данными
+
 ```
 learning=# create table persons(id serial, first_name text, second_name text);
 learning=# insert into persons(first_name, second_name) values('ivan', 'ivanov');
@@ -93,6 +102,7 @@ learning=#
 ```
 
 ### текущий уровень изоляции
+
 ```
 learning=# show transaction isolation level;
  transaction_isolation
@@ -102,4 +112,3 @@ learning=# show transaction isolation level;
 
 learning=#
 ```
-
