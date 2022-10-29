@@ -9,7 +9,7 @@
 
 $ cat /etc/os-release
 
-```
+```text
 PRETTY_NAME="Ubuntu 22.04.1 LTS"
 NAME="Ubuntu"
 VERSION_ID="22.04"
@@ -43,7 +43,7 @@ sudo apt-get -y install postgresql-15
 
 $ pg_lsclusters
 
-```
+```text
 Ver Cluster Port Status Owner    Data directory              Log file
 15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
 ```
@@ -52,7 +52,7 @@ Ver Cluster Port Status Owner    Data directory              Log file
 
 $ cat /etc/postgresql/15/main/pg_hba.conf
 
-```
+```text
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             postgres                                peer
 local   all             all                                     peer
@@ -69,11 +69,11 @@ host    replication     all             ::1/128                 scram-sha-256
 
 [1]: img/pg2console.bmp
 
-# Работа с уровнями изоляции
+## Работа с уровнями изоляции
 
-### создаем БД для тестов
+## создаем БД для тестов
 
-```
+```sql
 postgres=# create database learning;
 CREATE DATABASE
 postgres=# /c learning;
@@ -83,13 +83,13 @@ learning=#
 
 ### Выключаем autocommit
 
-```
+```sql
 learning=# \set AUTOCOMMIT off
 ```
 
 ### Создаем таблицу, наполняем ее данными
 
-```
+```sql
 learning=# create table persons(id serial, first_name text, second_name text);
 learning=# insert into persons(first_name, second_name) values('ivan', 'ivanov');
 learning=# insert into persons(first_name, second_name) values('petr', 'petrov');
@@ -103,7 +103,7 @@ learning=#
 
 ### текущий уровень изоляции
 
-```
+```sql
 learning=# show transaction isolation level;
  transaction_isolation
 -----------------------
