@@ -101,7 +101,7 @@ COMMIT
 learning=#
 ```
 
-### текущий уровень изоляции
+### тестируем read committed
 
 ```sql
 learning=# show transaction isolation level;
@@ -112,3 +112,94 @@ learning=# show transaction isolation level;
 
 learning=#
 ```
+
+В обеих консолях вводим "BEGIN". В результате получаем отображение "*" строке.
+
+```sql
+learning=# begin;
+BEGIN
+learning=*# 
+```
+
+В первой консоли выполняем вставку данных:
+
+```sql
+learning=*# insert into persons(first_name, second_name) values('sergey', 'sergeev');
+INSERT 0 1
+```
+
+Во второй консоли делаем выборку данных:
+
+```sql
+learning=*# select * from persons;
+ id | first_name | second_name
+----+------------+-------------
+  1 | ivan       | ivanov
+  2 | petr       | petrov
+(2 строки)
+```
+
+Данных, вставленных в первой консоли не видно, потому что уровень изоляции - read committed. При данном уровне транзакция видит только те данные, которые были зафиксированы до начала запроса; он никогда не увидит незафиксированных данных или изменений, внесённых в процессе выполнения запроса параллельными транзакциями.
+Выполнив COMMIT в первой консоли, выборка данных во второй покажет следующее:
+
+```sql
+learning=*# select * from persons;
+ id | first_name | second_name
+----+------------+-------------
+  1 | ivan       | ivanov
+  2 | petr       | petrov
+  3 | sergey     | sergeev
+(3 строки)
+```
+
+Данные в параллельной транзакции зафиксированы, поэтому мы их видим.
+
+### тестируем repeatable read
+
+Выполняем в обеих консолях транзакции с уровнем repeatable read:
+
+```sql
+learning=# BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+BEGIN
+learning=*# 
+```
+
+В первой консоли выполняем вставку:
+
+```sql
+learning=*# insert into persons(first_name, second_name) values('sveta', 'svetova');
+INSERT 0 1
+learning=*# 
+```
+
+Во второй консоли выполняем выборку:
+
+```sql
+learning=*# select * from persons;
+ id | first_name | second_name
+----+------------+-------------
+  1 | ivan       | ivanov
+  2 | petr       | petrov
+  3 | sergey     | sergeev
+(3 строки)
+```
+
+В первой завершим транзакцию командой COMMIT. Во второй снова выполним выборку - получим тот же результат.
+Завершив транзакцию во второй консоли получим результат:
+
+```sql
+learning=*# commit;
+COMMIT
+learning=# select * from persons;
+ id | first_name | second_name
+----+------------+-------------
+  1 | ivan       | ivanov
+  2 | petr       | petrov
+  3 | sergey     | sergeev
+  5 | sveta      | svetova
+(4 строки)
+```
+
+В режиме Repeatable Read видны только те данные, которые были зафиксированы до начала транзакции, но не видны незафиксированные данные и изменения, произведённые другими транзакциями в процессе выполнения данной транзакции. Последовательные команды SELECT в одной транзакции видят одни и те же данные; они не видят изменений, внесённых и зафиксированных другими транзакциями после начала их текущей транзакции.
+
+Значит в режиме RR во второй транзакции мы не увидим изменений первой пока не завершим обе.
