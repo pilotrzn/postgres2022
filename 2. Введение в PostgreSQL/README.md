@@ -58,18 +58,18 @@ sudo apt-get -y install postgresql-15
 
 ### проверка запуска
 
-$ pg_lsclusters
+```code
+ubuntu_srv1:~$ pg_lsclusters
 
-```text
 Ver Cluster Port Status Owner    Data directory              Log file
 15  main    5433 online postgres /var/lib/postgresql/15/main /var/log/postgresql/postgresql-15-main.log
 ```
 
 ### листинг pg_hba.conf
 
-$ cat /etc/postgresql/15/main/pg_hba.conf
+```code
+ubuntu_srv1:~$ cat /etc/postgresql/15/main/pg_hba.conf
 
-```text
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             postgres                                peer
 local   all             all                                     peer
