@@ -84,7 +84,7 @@ host    replication     all             ::1/128                 scram-sha-256
 
 ![consoles][1]
 
-[1]: img/pg2console.bmp
+[1]: ../img/pg2console.bmp
 
 ## Работа с уровнями изоляции
 
