@@ -38,7 +38,15 @@ e42ef1c004de   postgres:latest   "docker-entrypoint.s…"   8 seconds ago   Up 6
 ```
 $ docker run -it --rm --network postgresnet --name pg-client postgres:latest psql -h pg-server -U postgres
 ```
-Появляется запрос пароля. Вводим и входим в консоль postgres
+Появляется запрос пароля. Вводим и входим в консоль postgres. проверяем версию:
+```
+postgres=# select version();
+                                                           version
+-----------------------------------------------------------------------------------------------------------------------------
+ PostgreSQL 15.0 (Debian 15.0-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+(1 row)
+```
+
 Для тестирования создаем базы:
 ```
 postgres=# create database test1;
@@ -81,3 +89,22 @@ $ docker run -p 5050:80  \
 
 [1]: ../img/pgadmin.png
 
+Средствами pgadmin создаем новую бд test3.
+выполним запрос в клиенте(2):
+```
+postgres=# \l
+                                                List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
+-----------+----------+----------+------------+------------+------------+-----------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ test2     | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ test3     | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+(6 rows)
+```
+
+таким образом каталог с данными остается после удаления контейнера.
