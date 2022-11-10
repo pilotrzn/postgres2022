@@ -14,13 +14,20 @@ $ docker pull postgres
 $ docker pull jbergknoff/postgresql-client:latest
 ```
 
-Создаем каталог для БД
+version: '3'
 
-```
-$ sudo mkdir /var/lib/postgresql
-```
+volumes:
+  pg_vol:
 
-docker run --name pg_srv1 -d \
--e POSTGRES_PASSWORD=postgres \
--e POSTGRES_USER=postgres \
--e POSTGRES_DB=test1 -p 5432:5432 -v /home/alex/dockers/postgres/pg_cluster/data:/var/lib/postgresql/data postgres:latest
+services:
+  pg_db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=testdb
+    volumes:
+      - pg_vol:/var/lib/postgresql
+    ports:
+      - 5432:5432
