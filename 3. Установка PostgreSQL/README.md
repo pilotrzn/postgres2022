@@ -23,7 +23,7 @@ $ docker network create postgresnet
 $ docker run --name pg-server --network postgresnet \
 -e POSTGRES_PASSWORD=postgres \
 -d -p 5432:5432 \
--v ./dockers/postgres:/var/lib/postgresql/data postgres:latest
+-v /var/lib/postgresql:/var/lib/postgresql/data postgres:latest
 ```
 
 Проверяем состояние контейнера
