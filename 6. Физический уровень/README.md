@@ -63,17 +63,17 @@ VALUES  ('2021-11-01_раз'),
         ('2022-01-01_семь');
 ```
 
-В консоли управление VirtualBox создаем VMDK диск. Останавливаем машину с установленным postgres, подключаем диск, монтируем его в каталог /data (/etc/fstab). в моем случае это диск /dev/sdb1
+В консоли управление VirtualBox создаем VMDK диск. Останавливаем postgres, останавливаем машину с установленным postgres, подключаем диск, монтируем его в каталог /data (/etc/fstab). в моем случае это диск /dev/sdb1
 Cоздаем каталог:
 
 ```bash
 alex@ubuntu-srv1:~$ sudo mount /dev/sdb1 /data ## если монтирование выполнено в fstab - пропускаем
 alex@ubuntu-srv1:~$ sudo mkdir -p /data/main
-alex@ubuntu-srv1:~$ sudo hown postgres:postgres /data/main
+alex@ubuntu-srv1:~$ sudo chown postgres:postgres /data/main
 alex@ubuntu-srv1:~$ sudo chmod 700 /data/main
 ```
 
-С помощью команды mv переносим содержимое каталога /var/lib/postgresql/14/main/ в каталог /data/main. Обязатально проверяем права.
+С помощью команды mv переносим содержимое каталога /var/lib/postgresql/14/main/ в каталог /data/main. Обязатально проверяем права. Другой вариант - выполнить перенос каталога main, не создавая его в каталоге /data/. Но тогда каталог /data должен быть с правами postgres 700.
 
 Чтобы перенесенный кластер завработал необходимо поменять параметр в файле /etc/postgresql/14/main/postgresql.conf:
 
@@ -81,8 +81,8 @@ alex@ubuntu-srv1:~$ sudo chmod 700 /data/main
 data_directory = '/data/main'
 ```
 
-Запускаем службу postgres.
-Подключаемся к psql и запрашиваем data_directory:
+Запускаем службу postgres(systemctl start postgresql.service).
+Подключаемся к psql(sudo -iu postgres psql) и запрашиваем data_directory:
 
 ```sql
 postgres=# show data_directory;
@@ -91,6 +91,24 @@ postgres=# show data_directory;
  /data/main
 (1 строка)
 ```
+
+Проверяем наличие базы:
+
+```sql
+postgres-# \l
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges
+-----------+----------+----------+-------------+-------------+-----------------------
+ learning  | postgres | UTF8     | ru_RU.UTF-8 | ru_RU.UTF-8 |
+ postgres  | postgres | UTF8     | ru_RU.UTF-8 | ru_RU.UTF-8 |
+ template0 | postgres | UTF8     | ru_RU.UTF-8 | ru_RU.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | ru_RU.UTF-8 | ru_RU.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+(4 rows)
+```
+
+Перенос выполнен успешно.
 
 Дополнительное задание. Перенос диска с базой на другой инстанс
 Пошаговое описание.
