@@ -53,7 +53,7 @@ learning=# \d tbl1
 Вставляем произвольные данные для дальнейшей проверки:
 
 ```sql
-INSERT INTO tbl1 (message)
+learning=# INSERT INTO tbl1 (message)
 VALUES  ('2021-11-01_раз'),
         ('2021-11-10_два'),
         ('2021-11-30_три'),
