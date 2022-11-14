@@ -1,7 +1,9 @@
-# Домашнее задание 
+# Домашнее задание.
 
-Стенд: VirtualBox
-OS: Ubuntu 22.04
+```text
+ Стенд: VirtualBox
+ OS: Ubuntu 22.04
+```
 
 ```bash
 alex@ubuntu-srv1:~$ cat /etc/os-release
