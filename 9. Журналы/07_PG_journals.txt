@@ -34,7 +34,7 @@ FROM   pg_buffercache b
 WHERE  b.relDATABASE IN (    0, (SELECT oid FROM pg_DATABASE WHERE datname = current_database()) )
 AND    b.usagecount is not null;
 
-SELECT * FROM pg_buffercache_v WHERE relname='test';
+  SELECT * FROM pg_buffercache_v WHERE relname='test';
 
 SELECT * FROM test limit 10;
 
