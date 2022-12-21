@@ -349,7 +349,8 @@ testdb=*# update testtable set value=value+30 where id=1;
 
 Теперь в 3 консоли попытаемя обновить запись с id=2:
 
-```sqltestdb=*# update testtable set value=value+150 where id=2;
+```sql
+testdb=*# update testtable set value=value+150 where id=2;
 ERROR:  deadlock detected
 ПОДРОБНОСТИ:  Process 23734 waits for ShareLock on transaction 80583889; blocked by process 23735.
 Process 23735 waits for ShareLock on transaction 80583891; blocked by process 23736.
