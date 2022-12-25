@@ -21,7 +21,7 @@ VERSION_CODENAME=focal
 UBUNTU_CODENAME=focal
 ```
 
-### Версия Postgres:
+### Версия Postgres
 
 ```sql
 postgres=# select version();
@@ -29,7 +29,6 @@ version
 PostgreSQL 14.6 (Ubuntu 14.6-1.pgdg20.04+1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0, 64-bit
 (1 строка)
 ```
-
 
 ### Параметры сервера в postgresql.conf
 
