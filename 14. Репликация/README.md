@@ -299,8 +299,15 @@ testdb=# select * from second_table ;
 host replication postgres 192.168.56.1/0 md5
 ```
 
-На ВМ3 параметр synchronous_commit = on.
-На ВМ4 параметр hot_standy_feedback=off, max_standby_streaming_delay = 30s
+На ВМ3 параметр
+
+- synchronous_commit = on.
+
+На ВМ4 параметр
+
+- hot_standy_feedback=off;
+- max_standby_streaming_delay = 30s.
+
 На ВМ4 ранее созданный кластер останавливаем и удаляем.
 Далее выполняю команду pg_basebackup для создания физической копии сервера, но с ключом -R, чтобы создался файл recovery.conf:
 
@@ -311,7 +318,7 @@ postgres@pg14-srv04:~$ pg_basebackup -h pg14-srv03 -p 5432 -R -D /var/lib/postgr
 
 Запрошен пароль, вводим.
 После завершения команды запускаем сервер postgres любым способом(я стартую службу).
-ПРоверим состояние репликации. На мастере(ВМ3):
+Проверим состояние репликации. На мастере(ВМ3):
 
 ```sql
 postgres=# select * from pg_stat_replication \gx
@@ -360,5 +367,7 @@ sender_port           | 5432
 conninfo              | user=postgres password=******** channel_binding=prefer dbname=replication host=pg14-srv03 port=5432 fallback_application_name=walreceiver sslmode=prefer sslcompression=0 sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres target_session_attrs=any
 ```
 
+Запрос SELECT к обеим таблицам на реплике показал содержимое таблиц. "За кадром" выполнил INSERT в таблицу first_table  на ВМ1. на ВМ4 выполнил SELECT - новые данные успешно среплицировались.
+
 Не столкнулся с проблемами при создании реплики на 4ВМ. Но могу сказать что в данной ситуации выполнить promote без проблем не получится. У нас подписки настроены на текущий мастер, а после переключения на новом мастере не уверен что все пройдет гладко, возможно возникнут ошибки с имеющимися слотами репликаций на публикантах. Для этого нужно провести дополнительные тестирования.
-Из вопросов, возникших к реализации - не совсем понятно, почему подписка не может использовать файл pgpass, нужно обязательно прописывать пароль явно. Этот пароль можно увидеть при выводе команды /dRs+...
+Из вопросов, возникших к реализации - не совсем понятно, почему подписка не может использовать файл pgpass, нужно обязательно прописывать пароль явно. Этот пароль можно увидеть при выводе команды `/dRs+`...
