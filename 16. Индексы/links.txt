@@ -1,0 +1,5 @@
+https://scalegrid.io/blog/using-jsonb-in-postgresql-how-to-effectively-store-index-json-data-in-postgresql/
+https://coderoad.ru/52444912/Как-узнать-фрагментированные-индексы-и-дефрагментировать-их-в-PostgreSQL
+https://pgeoghegan.blogspot.com/2017/07/postgresql-index-bloat-microscope.html
+https://hakibenita.com/postgresql-hash-index
+https://www.cybertec-postgresql.com/en/how-to-interpret-postgresql-explain-analyze-output/

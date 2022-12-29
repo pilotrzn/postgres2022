@@ -1,0 +1,5 @@
+https://habr.com/ru/post/486710/
+https://habr.com/ru/company/pgdayrussia/blog/329542/
+https://sysadminium.ru/statistika_raboty_postgresql/
+https://postgrespro.ru/docs/postgresql/15/pgstatstatements
+https://habr.com/ru/company/tensor/blog/502478/

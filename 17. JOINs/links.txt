@@ -1,0 +1,3 @@
+https://bertwagner.com/posts/visualizing-merge-join-internals-and-understanding-their-implications/
+https://eax.me/postgresql-lateral-join/
+https://postgrespro.ru/docs/postgresql/15/explicit-joins
